@@ -8,3 +8,4 @@ google-auth
 ultralytics
 opencv-python-headless
 Pillow
+google-generativeai
