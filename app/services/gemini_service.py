@@ -8,9 +8,9 @@ API_KEY = st.secrets.get("GOOGLE_API_KEY")
 if API_KEY:
     genai.configure(api_key=API_KEY)
 
-def analyze_image_with_gemini(image):
+def analyze_image_with_gemini(image, user_context=""):
     """
-    Sends the image to Google Gemini Flash to identify food and estimate nutrition.
+    Sends the image to Google Gemini to identify food and estimate nutrition.
     Returns a list of dictionaries with food details.
     """
     if not API_KEY:
@@ -37,25 +37,31 @@ def analyze_image_with_gemini(image):
             # Use the model name directly
             model = genai.GenerativeModel(model_name)
             
-            prompt = """
-            You are a professional nutritionist. Analyze this image of food.
-            Identify the distinct food items present.
-            For each item, estimate the weight in grams and the nutritional content (calories, protein, carbs, fats) based on that weight.
+            prompt = f"""
+            Actúa como un nutriólogo experto. Analiza esta imagen de comida.
             
-            Return ONLY a raw JSON list of objects. Do not use markdown code blocks.
-            Format:
+            Contexto adicional del usuario: "{user_context if user_context else 'Ninguno'}"
+            
+            Identifica los alimentos presentes.
+            Para cada alimento, estima el peso en gramos y el contenido nutricional (calorías, proteína, carbohidratos, grasas).
+            Usa el contexto para ajustar las calorías (ej: si es frito, aumenta grasas).
+            
+            Retorna SOLO una lista JSON pura de objetos. NO uses bloques de código markdown.
+            Los nombres de los alimentos DEBEN estar en ESPAÑOL.
+            
+            Formato:
             [
-                {
-                    "name": "Grilled Chicken Breast",
+                {{
+                    "name": "Pechuga de Pollo Asada",
                     "estimated_grams": 150,
                     "calories": 250,
                     "protein": 45,
                     "carbs": 0,
                     "fats": 5
-                },
+                }},
                 ...
             ]
-            If the image is not food, return an empty list [].
+            Si la imagen no es comida, retorna una lista vacía [].
             """
             
             response = model.generate_content([prompt, image])
