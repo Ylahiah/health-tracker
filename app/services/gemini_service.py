@@ -18,9 +18,10 @@ def analyze_image_with_gemini(image):
         return [], None
 
     try:
-        # Using the standard gemini-pro-vision or gemini-1.5-flash-latest model name
-        # Sometimes exact version names change, 'gemini-1.5-flash-latest' is safer or just 'gemini-pro-vision'
-        model = genai.GenerativeModel('gemini-1.5-flash-latest')
+        # Using the standard gemini-pro model which often works better for new free-tier accounts
+        # Note: 'gemini-pro' also supports images in some regions, but let's try 'gemini-1.5-flash' again without 'latest'
+        # If this fails, we will need to list models.
+        model = genai.GenerativeModel('gemini-1.5-flash')
         
         prompt = """
         You are a professional nutritionist. Analyze this image of food.
