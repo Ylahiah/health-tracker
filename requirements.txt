@@ -1,0 +1,10 @@
+streamlit
+pandas
+plotly
+gspread
+oauth2client
+python-dotenv
+google-auth
+ultralytics
+opencv-python-headless
+Pillow
