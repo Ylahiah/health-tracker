@@ -48,9 +48,11 @@ def init_sheets():
             ws.append_row(cols)
             # st.toast(f"Created worksheet: {title}")
 
+@st.cache_data(ttl=60)
 def load_data(worksheet_name):
     """
     Loads data from a specific worksheet into a pandas DataFrame.
+    Cached for 60 seconds to optimize Cloud Run performance.
     """
     client = get_client()
     try:
@@ -86,6 +88,10 @@ def add_row(worksheet_name, row_data):
             row_values.append(row_data.get(col, ""))
             
         ws.append_row(row_values)
+        
+        # Invalidate cache for this worksheet so UI updates immediately
+        load_data.clear()
+        
         return True
     except Exception as e:
         st.error(f"Error adding row to {worksheet_name}: {e}")

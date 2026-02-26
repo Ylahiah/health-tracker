@@ -30,7 +30,11 @@ COLS_MEDS = [
 ]
 COLS_HABITS = ["date", "habit_name", "status", "notes"]
 COLS_GOALS = ["category", "metric", "target_value", "start_date", "target_date", "status"]
-COLS_PROFILE = ["name", "age", "gender", "height", "current_weight", "goal_weight", "activity_level", "calorie_deficit", "daily_calories", "tdee", "updated_at"]
+COLS_PROFILE = [
+    "name", "age", "gender", "height", "current_weight", "goal_weight", 
+    "activity_level", "calorie_deficit", "daily_calories", "tdee", 
+    "updated_at", "start_date", "peso_inicial", "proteina_objetivo", "fecha_objetivo_estimada"
+]
 
 # Default Goals (fallback)
 DEFAULT_CALORIE_GOAL = 2000
